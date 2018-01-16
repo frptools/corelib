@@ -1,0 +1,30 @@
+{
+  "name": "@frptools/corelib",
+  "version": "1.0.0",
+  "description": "[FRPTools] General-purpose functions and types",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "test-dev": "cd ../.. && mocha --require source-map-support/register --ui tdd --watch --bail .build/runtime/tests/**/*.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "contributors": [
+    "Nathan Ridley <axefrog@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": "https://github.com/axefrog/salix/issues",
+  "repository": "git@github.com:axefrog/salix.git",
+  "dependencies": {
+    "@most/core": "^1.0.1",
+    "@most/prelude": "^1.6.4",
+    "date-fns": "^1.28.5",
+    "glob": "^7.1.2",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1"
+  }
+}

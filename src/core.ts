@@ -4,7 +4,6 @@ import { curry2, curry2n, curry3, curry4n } from './curry';
 import { CurriedFunction2n, CurriedFunction3n, CurriedFunction4n } from './curry';
 // @ts-ignore
 import { CurriedFunction2, CurriedFunction3, CurriedFunction4, apply } from '@most/prelude';
-import { MapFn } from './types';
 
 // Composition
 export const compose = (...fns: Function[]) => (...args: any[]) => fns.reduceRight((x, f, i) => i === fns.length - 1 ? f(...args) : f(x), null);

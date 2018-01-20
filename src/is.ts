@@ -1,26 +1,26 @@
 import { Primitive } from './types';
 
-export function isDefined<T>(value: T | undefined): value is T;
-export function isDefined<T>(value: T | undefined): boolean;
-export function isDefined<T>(value: T | undefined) {
+export function isDefined<T> (value: T | undefined): value is T;
+export function isDefined<T> (value: T | undefined): boolean;
+export function isDefined<T> (value: T | undefined) {
   return value !== void 0;
 }
 
-export function isUndefined<T>(value: T | undefined): value is undefined;
-export function isUndefined<T>(value: T | undefined): boolean;
-export function isUndefined<T>(value: T | undefined) {
+export function isUndefined<T> (value: T | undefined): value is undefined;
+export function isUndefined<T> (value: T | undefined): boolean;
+export function isUndefined<T> (value: T | undefined) {
   return value === void 0;
 }
 
-export function isNull<T>(value: T | null): value is null;
-export function isNull<T>(value: T | null): boolean;
-export function isNull<T>(value: T | null) {
+export function isNull<T> (value: T | null): value is null;
+export function isNull<T> (value: T | null): boolean;
+export function isNull<T> (value: T | null) {
   return value === null;
 }
 
-export function isNotNull<T>(value: T | null): value is T;
-export function isNotNull<T>(value: T | null): boolean;
-export function isNotNull<T>(value: T | null) {
+export function isNotNull<T> (value: T | null): value is T;
+export function isNotNull<T> (value: T | null): boolean;
+export function isNotNull<T>  (value: T | null) {
   return value !== null;
 }
 
@@ -32,9 +32,9 @@ export function isNotNull<T>(value: T | null) {
  * @param {(T|null|undefined)} value A value to test
  * @returns {(value is null|undefined)} true if the value is null or undefined, otherwise false
  */
-export function isNothing<T>(value: T | null | undefined): value is null | undefined;
-export function isNothing<T>(value: T | null | undefined): boolean;
-export function isNothing<T>(value: T | null | undefined) {
+export function isNothing<T>  (value: T | null | undefined): value is null | undefined;
+export function isNothing<T>  (value: T | null | undefined): boolean;
+export function isNothing<T>  (value: T | null | undefined) {
   return value === void 0 || value === null;
 }
 
@@ -46,9 +46,9 @@ export function isNothing<T>(value: T | null | undefined) {
  * @param {(T|null|undefined)} value A value to test
  * @returns {value is T} false if the value is null or undefined, otherwise true
  */
-export function isNotNothing<T>(value: T | null | undefined): value is T;
-export function isNotNothing<T>(value: T | null | undefined): boolean;
-export function isNotNothing<T>(value: T | null | undefined) {
+export function isNotNothing<T>  (value: T | null | undefined): value is T;
+export function isNotNothing<T>  (value: T | null | undefined): boolean;
+export function isNotNothing<T>  (value: T | null | undefined) {
   return value !== void 0 && value !== null;
 }
 
@@ -60,8 +60,8 @@ export function isNotNothing<T>(value: T | null | undefined) {
  * @param {*} value A value to check
  * @returns {value is Iterable<T>} true if the argument is iterable
  */
-export function isIterable<T>(value: object): value is Iterable<T>;
-export function isIterable<T>(value: object): boolean;
+export function isIterable<T>  (value: object): value is Iterable<T>;
+export function isIterable<T>  (value: object): boolean;
 export function isIterable (value: object) {
   return Symbol.iterator in <any>value;
 }
@@ -73,9 +73,9 @@ export function isIterable (value: object) {
  * @param {*} value A value to test
  * @returns {value is Object} true if the value is a non-null object instance
  */
-export function isObject<T extends Function>(value: T): false;
-export function isObject<T extends object>(value: T | Primitive): value is T;
-export function isObject<T extends object>(value: T | Primitive): boolean;
+export function isObject<T extends Function>  (value: T): false;
+export function isObject<T extends object>  (value: T | Primitive): value is T;
+export function isObject<T extends object>  (value: T | Primitive): boolean;
 export function isObject (value: any) {
   return typeof value === 'object' && value !== null;
 }

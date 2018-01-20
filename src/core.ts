@@ -1,9 +1,8 @@
-import { isUndefined, isNothing, isNull } from './is';
+import { isNothing, isNull, isUndefined } from './is';
 import { curry2, curry2n, curry3, curry4n } from './curry';
+
 // @ts-ignore
-import { CurriedFunction2n, CurriedFunction3n, CurriedFunction4n } from './curry';
-// @ts-ignore
-import { CurriedFunction2, CurriedFunction3, CurriedFunction4, apply } from '@most/prelude';
+import { CurriedFunction2, CurriedFunction2n, CurriedFunction3, CurriedFunction4n } from './curry';
 
 // Composition
 export const compose = (...fns: Function[]) => (...args: any[]) => fns.reduceRight((x, f, i) => i === fns.length - 1 ? f(...args) : f(x), null);
@@ -17,9 +16,10 @@ export const flip = curry3((f: Function, a: any, b: any) => f(b, a));
 // Logic
 export const ifElse = curry4n((f: Function, g: Function, h: Function, ...x: any[]) => f(...x) ? g(...x) : h(...x));
 export const negate = curry2((f: Function, x: any) => !f(x));
-export const isEqual = curry2((a: any, b: any) => a === b);
+export const equals = curry2((a: any, b: any) => a === b);
 export const or = curry3((f: Function, g: Function, x: any) => f(x) || g(x));
 export const and = curry3((f: Function, g: Function, x: any) => f(x) && g(x));
+// tslint:disable-next-line:variable-name
 export const any = (...fns: Function[]) => (x: any) => fns.some(f => f(x));
 export const mapIf = curry3((p: Function, f: Function, x: any) => p(x) ? f(x) : x);
 export const mapUnless = curry3((p: Function, f: Function, x: any) => p(x) ? x : f(x));

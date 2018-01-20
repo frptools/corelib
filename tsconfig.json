@@ -2,21 +2,17 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "es2015",
-    "strict": true,
     "declaration": true,
+    "strictNullChecks": true,
     "target": "es6",
     "sourceMap": true,
     "preserveConstEnums": false,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "removeComments": false,
-    "stripInternal": true,
     "noUnusedLocals": true,
     "lib": ["es2015", "es2016", "es2017"],
     "skipLibCheck": true,
-    "outDir": "./lib",
-    "noEmit": false
-  },
-  "include": [
-    "./src"
-  ]
+    "noEmit": true
+  }
 }

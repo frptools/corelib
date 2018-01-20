@@ -1,69 +1,67 @@
-import { CurriedFunction2 } from '@most/prelude';
-import { min, max } from './math';
-import { curry2 } from './curry';
-import { isEqual } from './core';
-import { EqualityFn } from './types';
+import { max, min } from './math';
+import { equals } from './core';
+import { EqualityFn, MapFn } from './types';
 import { isFunction } from './is';
 
-export function areArraysEqual<A>(a: A[]): (b: A[]) => boolean;
-export function areArraysEqual<A>(a: A[], b: A[]): boolean;
-export function areArraysEqual<A>(equals: EqualityFn<A>): (a: A[], b: A[]) => boolean;
-export function areArraysEqual<A>(equals: EqualityFn<A>, a: A[]): (b: A[]) => boolean;
-export function areArraysEqual<A>(equals: EqualityFn<A>, a: A[], b: A[]): boolean;
-export function areArraysEqual<A> (arg0: A[]|EqualityFn<A>, arg1?: A[], arg2?: A[]) {
-  let equals: EqualityFn<A>, a: A[], b: A[];
+export function arraysEqual<A> (a: A[]): (b: A[]) => boolean;
+export function arraysEqual<A> (a: A[], b: A[]): boolean;
+export function arraysEqual<A> (equals: EqualityFn<A>): (a: A[], b: A[]) => boolean;
+export function arraysEqual<A> (equals: EqualityFn<A>, a: A[]): (b: A[]) => boolean;
+export function arraysEqual<A> (equals: EqualityFn<A>, a: A[], b: A[]): boolean;
+export function arraysEqual<A> (arg0: A[]|EqualityFn<A>, arg1?: A[], arg2?: A[]) {
+  let eq: EqualityFn<A>, a: A[], b: A[];
   if (isFunction(arg0)) {
     switch (arguments.length) {
-      case 1: return (a: A[], b: A[]) => areArraysEqual(arg0, a, b);
-      case 2: return (b: A[]) => areArraysEqual(arg0, arg1!, b);
+      case 1: return (a: A[], b: A[]) => arraysEqual(arg0, a, b);
+      case 2: return (b: A[]) => arraysEqual(arg0, arg1!, b);
     }
     a = arg1!;
     b = arg2!;
-    equals = arg0;
+    eq = arg0;
   }
   else {
     a = arg0;
     b = arg1!;
-    equals = isEqual;
+    eq = equals;
   }
   if (a === b) return true;
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) {
-    if (!equals(a[i], b[i])) return false;
+    if (!eq(a[i], b[i])) return false;
   }
   return true;
 }
 
-export function arrayLeftEqualElementsCount<A>(a: A[]): (b: A[]) => number;
-export function arrayLeftEqualElementsCount<A>(a: A[], b: A[]): number;
-export function arrayLeftEqualElementsCount<A>(equals: EqualityFn<A>): (a: A[], b: A[]) => number;
-export function arrayLeftEqualElementsCount<A>(equals: EqualityFn<A>, a: A[]): (b: A[]) => number;
-export function arrayLeftEqualElementsCount<A>(equals: EqualityFn<A>, a: A[], b: A[]): number;
-export function arrayLeftEqualElementsCount<A> (arg0: A[]|EqualityFn<A>, arg1?: A[], arg2?: A[]) {
-  let equals: EqualityFn<A>, a: A[], b: A[];
+export function arraysEqualStartCount<A> (a: A[]): (b: A[]) => number;
+export function arraysEqualStartCount<A> (a: A[], b: A[]): number;
+export function arraysEqualStartCount<A> (equals: EqualityFn<A>): (a: A[], b: A[]) => number;
+export function arraysEqualStartCount<A> (equals: EqualityFn<A>, a: A[]): (b: A[]) => number;
+export function arraysEqualStartCount<A> (equals: EqualityFn<A>, a: A[], b: A[]): number;
+export function arraysEqualStartCount<A> (arg0: A[]|EqualityFn<A>, arg1?: A[], arg2?: A[]) {
+  let eq: EqualityFn<A>, a: A[], b: A[];
   if (isFunction(arg0)) {
     switch (arguments.length) {
-      case 1: return (a: A[], b: A[]) => arrayLeftEqualElementsCount(arg0, a, b);
-      case 2: return (b: A[]) => arrayLeftEqualElementsCount(arg0, arg1!, b);
+      case 1: return (a: A[], b: A[]) => arraysEqualStartCount(arg0, a, b);
+      case 2: return (b: A[]) => arraysEqualStartCount(arg0, arg1!, b);
     }
     a = arg1!;
     b = arg2!;
-    equals = arg0;
+    eq = arg0;
   }
   else {
     a = arg0;
     b = arg1!;
-    equals = isEqual;
+    eq = equals;
   }
   if (a === b) return true;
   const max = min(a.length, b.length);
   for (let i = 0; i < max; i++) {
-    if (!equals(a[i], b[i])) return i;
+    if (!eq(a[i], b[i])) return i;
   }
   return max;
 }
 
-export function copyArray<A = any> (values: A[]) {
+export function copyArrayShallow<A = any> (values: A[]) {
   if (values.length > 7) {
     var arr = new Array(values.length);
     for (var i = 0; i < values.length; i++) {
@@ -95,7 +93,7 @@ export function concatArray<A = any> (left: A[], right: A[]) {
   return arr;
 }
 
-export function replaceArrayElement<A = any> (index: number, value: A, array: A[]) {
+export function withArrayIndexUpdated<A = any> (index: number, value: A, array: A[]) {
   var length = array.length;
   var newArray = Array(length);
   for (var i = 0; i < length; ++i) {
@@ -105,7 +103,7 @@ export function replaceArrayElement<A = any> (index: number, value: A, array: A[
   return newArray;
 }
 
-export function removeArrayElement<A = any> (index: number, array: A[]) {
+export function withArrayIndexRemoved<A = any> (index: number, array: A[]) {
   var length = array.length;
   if (length === 0 || index >= length) return array;
   if (length === 1) return [];
@@ -119,7 +117,7 @@ export function removeArrayElement<A = any> (index: number, array: A[]) {
   return newArray;
 }
 
-export function insertArrayElement<A = any> (index: number, value: A, array: A[]) {
+export function withArrayIndexInserted<A = any> (index: number, value: A, array: A[]) {
   var length = array.length;
   var newArray = Array(length + 1);
   for (var i = 0; i < index; ++i) {
@@ -132,7 +130,7 @@ export function insertArrayElement<A = any> (index: number, value: A, array: A[]
   return newArray;
 }
 
-export function appendArrayElement<A = any> (value: A, array: A[]) {
+export function withArrayElementAppended<A = any> (value: A, array: A[]) {
   const newArray = Array(array.length + 1);
   for (var i = 0; i < array.length; ++i) {
     newArray[i] = array[i];
@@ -141,7 +139,7 @@ export function appendArrayElement<A = any> (value: A, array: A[]) {
   return newArray;
 }
 
-export function prependArrayElement<A = any> (value: A, array: A[]) {
+export function withArrayElementPrepended<A = any> (value: A, array: A[]) {
   const newArray = Array(array.length + 1);
   newArray[0] = value;
   for (var i = 0; i < array.length; ++i) {
@@ -150,9 +148,9 @@ export function prependArrayElement<A = any> (value: A, array: A[]) {
   return newArray;
 }
 
-export function writeElementsUsing<A = any, B = any> (mapFn: (a: A) => B, sourceValues: A[], targetValues: B[], sourceIndex: number, targetIndex: number, count: number): void;
-export function writeElementsUsing<A = any> (mapFn: (a: A) => A, sourceValues: A[], targetValues: A[], sourceIndex: number, targetIndex: number, count: number): void;
-export function writeElementsUsing (mapFn: (a: any, i: number) => any, sourceValues: any[], targetValues: any[], sourceIndex: number, targetIndex: number, count: number) {
+export function writeArrayElementsUsing<A = any, B = any> (mapFn: MapFn<A, B>, sourceValues: A[], targetValues: B[], sourceIndex: number, targetIndex: number, count: number): void;
+export function writeArrayElementsUsing<A = any> (mapFn: MapFn<A, A>, sourceValues: A[], targetValues: A[], sourceIndex: number, targetIndex: number, count: number): void;
+export function writeArrayElementsUsing (mapFn: MapFn<any, any>, sourceValues: any[], targetValues: any[], sourceIndex: number, targetIndex: number, count: number) {
   var i, j, c;
   if (sourceValues === targetValues && sourceIndex < targetIndex) {
     for (i = sourceIndex + count - 1, j = targetIndex + count - 1, c = 0; c < count; i--, j--, c++) {
@@ -166,7 +164,7 @@ export function writeElementsUsing (mapFn: (a: any, i: number) => any, sourceVal
   }
 }
 
-export function writeElements<A = any> (source: A[], destination: A[], sourceIndex: number, destinationIndex: number, count: number): void {
+export function writeArrayElements<A = any> (source: A[], destination: A[], sourceIndex: number, destinationIndex: number, count: number): void {
   var i, j, c;
   if (source === destination && sourceIndex < destinationIndex) {
     for (i = sourceIndex + count - 1, j = destinationIndex + count - 1, c = 0; c < count; i--, j--, c++) {
@@ -180,7 +178,7 @@ export function writeElements<A = any> (source: A[], destination: A[], sourceInd
   }
 }
 
-export function skipArrayLeft<A = any> (count: number, values: A[]): A[] {
+export function skipArrayStart<A = any> (count: number, values: A[]): A[] {
   var array = new Array(max(0, values.length - count));
   for (var i = 0, j = count; j < values.length; i++, j++) {
     array[i] = values[j];
@@ -188,7 +186,7 @@ export function skipArrayLeft<A = any> (count: number, values: A[]): A[] {
   return array;
 }
 
-export function takeArrayLeft<A = any> (count: number, values: A[]): A[] {
+export function takeArrayStart<A = any> (count: number, values: A[]): A[] {
   const array = new Array(min(count, values.length));
   const length = array.length;
   for (let i = 0; i < length; i++) {
@@ -217,18 +215,19 @@ export function toArray<A = any> (value: A): A[] {
   return [value];
 }
 
-export const splitArrayUsing: CurriedFunction2<any, any, any> = curry2((f: Function, arr: any[]) =>
-  arr.reduce((a: any, x: any) => ((a[f(x) ? 0 : 1]).push(x), a), [[], []]));
+export function partitionArray (f: Function, arr: any[]) {
+  return arr.reduce((a: any, x: any) => ((a[f(x) ? 0 : 1]).push(x), a), [[], []]);
+}
 
-export function splitArrayAtIndex<A> (index: number, array: A[]): [A[], A[]] {
+export function partitionArrayAtIndex<A> (index: number, array: A[]): [A[], A[]] {
   const a: A[] = new Array<A>(index);
   const b: A[] = new Array<A>(array.length - index);
-  writeElements(array, a, 0, 0, index);
-  writeElements(array, b, index, 0, array.length - index);
+  writeArrayElements(array, a, 0, 0, index);
+  writeArrayElements(array, b, index, 0, array.length - index);
   return [a, b];
 }
 
-export function deleteFromArrayBag<A> (predicate: (a: A) => boolean, array: A[]): boolean {
+export function removeFromUnsortedArray<A> (predicate: (a: A) => boolean, array: A[]): boolean {
   const lastIndex = array.length - 1;
   for (let i = 0; i <= lastIndex; i++) {
     if (predicate(array[i])) {

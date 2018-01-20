@@ -1,12 +1,20 @@
 {
   "name": "@frptools/corelib",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "[FRPTools] General-purpose functions and types",
-  "main": "lib/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/es2015/index.js",
+  "jsnext:main": "lib/es2015/index.js",
+  "typings": "lib/es2015/index.d.ts",
   "scripts": {
-    "test-dev": "cd ../.. && mocha --require source-map-support/register --ui tdd --watch --bail .build/runtime/tests/**/*.js"
+    "clean": "rimraf ./lib ./.build",
+    "build-cjs": "tsc -p tsconfig.commonjs.json",
+    "build-es2015": "tsc -p tsconfig.es2015.json",
+    "build-tests": "tsc -p tsconfig.tests.json",
+    "build": "npm run build-cjs && npm run build-es2015 && npm run build-tests",
+    "lint": "tslint -p tsconfig.es2015.json && tslint -p tsconfig.tests.json",
+    "test": "ava --timeout=30s --tap",
+    "test-dev": "ava --timeout=30s --fail-fast --watch"
   },
   "files": [
     "lib"
@@ -15,16 +23,27 @@
     "Nathan Ridley <axefrog@gmail.com>"
   ],
   "license": "MIT",
-  "bugs": "https://github.com/axefrog/salix/issues",
+  "bugs": "https://github.com/frptools/salix/issues",
   "repository": "git@github.com:axefrog/salix.git",
   "dependencies": {
-    "@most/core": "^1.0.1",
-    "@most/prelude": "^1.6.4",
     "date-fns": "^1.28.5",
     "glob": "^7.1.2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "typescript": "^2.6.1"
+    "@frptools/config": "^1.0.0",
+    "@types/node": "^9.3.0",
+    "ava": "^0.24.0",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2"
+  },
+  "ava": {
+    "files": [
+      ".build/tests/{functions,internals}/*.js"
+    ],
+    "source": [
+      ".build/**/*.js"
+    ]
   }
 }

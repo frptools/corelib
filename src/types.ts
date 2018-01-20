@@ -6,6 +6,11 @@ export type Primitive = Defined | undefined;
 
 export type ValueRef<A> = { value: A };
 
+export interface Associative<V> {
+  [key: string]: V;
+  [key: number]: V;
+}
+
 export type FilterFn<A> = (value: A, index: number) => any;
 
 export type KeyedFilterFn<A, K> = (value: A, key: K, index: number) => any;

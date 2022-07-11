@@ -1,4 +1,4 @@
-import DateFns from 'date-fns';
+import * as DateFns from 'date-fns';
 import { curry2 } from './curry';
 
 // @ts-ignore

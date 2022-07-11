@@ -1,6 +1,6 @@
 {
   "name": "@frptools/corelib",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "[FRPTools] General-purpose functions and types",
   "main": "lib/commonjs/index.js",
   "module": "lib/es2015/index.js",
